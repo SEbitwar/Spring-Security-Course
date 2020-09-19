@@ -12,6 +12,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import static com.goudscode.security.ApplicationUserRoles.ADMIN;
+import static com.goudscode.security.ApplicationUserRoles.STUDENT;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -29,8 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/hi")
-                .permitAll()
+                .antMatchers("/index","/").permitAll()
+                .antMatchers("/admin/**").hasRole(ADMIN.name())
+                .antMatchers("/student/**").hasRole(STUDENT.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -43,9 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails sainath = User.builder()
                 .username("Sainath")
                 .password(passwordEncoder.encode("Sainath"))
-                .roles("ADMIN")
+                .roles(ADMIN.name())
                 .build();
 
-        return  new InMemoryUserDetailsManager(sainath);
+        UserDetails swati = User.builder()
+                .username("swati")
+                .password(passwordEncoder.encode("swati123"))
+                .roles(STUDENT.name())
+                .build();
+
+        return  new InMemoryUserDetailsManager(sainath, swati);
     }
 }

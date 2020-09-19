@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class Controller {
 
-    @GetMapping("/hi")
-    public String hello_world(){
-        return "Don't Know...!!!";
+    @GetMapping("/admin/api/v1")
+    public String admin(){
+        return "This is Admin API...!!!";
     }
-    @GetMapping("/name")
-    public String temp(){
-        return "Sainath";
+    @GetMapping("/student/api/v1")
+    public String student(){
+        return "This is Student API...!!!";
     }
 
 }
